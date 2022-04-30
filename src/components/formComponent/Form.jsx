@@ -20,7 +20,8 @@ const FormComponent = () => {
   const [otrasTareas, setOtrasTareas] = React.useState("");
   const [otrasTareasError, setOtrasTareasError] = React.useState("");
   //estado tarea
-  const [estadoTareas, setEstadoTareas] = React.useState("");
+  const [OrigenTarea, setOrigenTarea] = React.useState("");
+  const [OrigenTareaError, setOrigenTareaError] = React.useState("");
   //nombre de usuario
   const [nombreDeUsuario, setNombreDeUsuario] = React.useState("");
   const [nombreDeUsuarioError, setNombreDeUsuarioError] = React.useState("");
@@ -71,7 +72,9 @@ const FormComponent = () => {
         decripcionTarea: decripcionTarea,
         otrasTareas: otrasTareas,
         nombreDeUsuario: nombreDeUsuario,
-        estadoTareas: estadoTareas,
+        origen: OrigenTarea,
+        image:'https://picsum.photos/200/200?random='+nameTarea
+
       };
       await db.collection('tareas').doc(idEdit).update(nuevaTarea)
    
@@ -105,7 +108,10 @@ const FormComponent = () => {
       error = true;
     }
 
-    
+    if (!OrigenTarea.trim()) {
+      setOrigenTareaError("Estado  obligatorio");
+      error = true;
+    }
 
     return error;
   };
@@ -128,7 +134,8 @@ const FormComponent = () => {
         decripcionTarea: decripcionTarea,
         otrasTareas: otrasTareas,
         nombreDeUsuario: nombreDeUsuario,
-        estadoTareas: estadoTareas,
+        OrigenTarea: OrigenTarea,
+        image:'https://picsum.photos/200/200?random='+nameTarea
       };
       await db.collection('tareas').add(nuevaTarea)
       setTareas([...tareas,
@@ -138,8 +145,10 @@ const FormComponent = () => {
           decripcionTarea: decripcionTarea,
           otrasTareas: otrasTareas,
           nombreDeUsuario: nombreDeUsuario,
-          estadoTareas: estadoTareas,
-        }])
+          OrigenTarea: OrigenTarea,
+          image:'https://picsum.photos/200/200?random='+nameTarea
+
+      }])
     } catch (error) {
       console.log(error);
     }
@@ -166,7 +175,7 @@ const openEdit= async (item) =>{
     setNameTarea(item.nameTarea);
     setDecripcionTarea(item.decripcionTarea);
     setOtrasTareas(item.otrasTareas);
-    setEstadoTareas(item.estadoTareas);
+    setOrigenTarea(item.estadoTareas);
     setNombreDeUsuario(item.nombreDeUsuario);
 
     //errores
@@ -188,7 +197,7 @@ const openEdit= async (item) =>{
     setNameTarea("");
     setDecripcionTarea("");
     setOtrasTareas("");
-    setEstadoTareas("");
+    setOrigenTarea("");
     setNombreDeUsuario("");
 
     //errores
@@ -200,8 +209,7 @@ const openEdit= async (item) =>{
     setEditMode(false)
   };
 
-  //origen actividad
-  const [origenActividad, setOrigenActividad] = React.useState("");
+
 
   return (
     <div className="card-body">
@@ -314,31 +322,29 @@ const openEdit= async (item) =>{
                   )}
                 </div>
 
-                <div className="mb-3">
-                  <label className="form-label">Origen de actividad</label>
-                  <select
-                    className="form-select"
-                    aria-label="Default select example"
-                    value={origenActividad}
-                    onChange={(e) => setOrigenActividad(e.target.value)}
-                  >
-                    <option value="U">Universidad</option>
-                    <option value="T">Trabajo</option>
-                  </select>
-                </div>
+     
 
                 <div className="mb-3">
-                  <label className="form-label">Estado</label>
-                  <select
-                    className="form-select"
-                    aria-label="Default select example"
-                    value={estadoTareas}
-                    onChange={(e) => setEstadoTareas(e.target.value)}
-                  >
-                    <option value="A">Activo</option>
-                    <option value="I">Inactivo</option>
-                  </select>
+                  <label className="form-label">Origen de actividad</label>
+                  <textarea
+                   className={
+                    OrigenTareaError === ""
+                      ? "form-control"
+                      : " form-control is-invalid"
+                  }
+                    // className="form-control"
+                    id="exampleFormControlTextarea1"
+                    rows="3"
+                    value={OrigenTarea}
+                    onChange={(e) => setOrigenTarea(e.target.value)}
+                  ></textarea>
+                  {decripcionTareaError !== "" ? (
+                    <label  className="text-danger">{OrigenTareaError}</label>
+                  ) : (
+                    ""
+                  )}
                 </div>
+             
 
                 <div className="row mt-3">
                   <div className="col mt-3">
