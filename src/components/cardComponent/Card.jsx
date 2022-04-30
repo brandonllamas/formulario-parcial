@@ -1,5 +1,4 @@
 import React from "react";
-import image from "../../assets/placeholder.png";
 
 const Card = ({ item, methondev, editar }) => {
   //   console.log(item)
@@ -14,7 +13,7 @@ const Card = ({ item, methondev, editar }) => {
   //   console.log(methondev);
   return (
     <div className="card mt-3" style={{ width: "18rem" }}>
-      <img src={image} className="card-img-top" alt="..."></img>
+      <img src="https://picsum.photos/seed/picsum/200/300" className="card-img-top" alt="..."></img>
       <div className="card-body">
         <h5 className="card-title">{item.nameTarea}</h5>
         <p className="card-text">
